@@ -129,14 +129,31 @@
             background: #fefefe;
         }
     </style>
+    <script>
+        // Google Analytics
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'G-XNF046ZBYV', 'auto');  // 請將 'YOUR_TRACKING_ID' 替換成您的追蹤ID
+        ga('send', 'pageview');
+
+        // Global site tag (gtag.js) - Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-XNF046ZBYV'); // 請將 'YOUR_TRACKING_ID' 替換成您的追蹤ID
+    </script>
 </head>
 <body>
     <h1>術前停藥提醒小幫手</h1>
     <div id="chatbox">
         <input type="text" id="searchInput" placeholder="🔍 搜尋藥品名稱（如：波立維、plavix）" oninput="searchDrugs()">
-        <button class="btn" style="background:#888" onclick="showAllDrugs()">🗂️ 我不確定藥名，瀏覽全部藥品</button>
-        <button class="btn" onclick="showGroup('anticoagulants')" style="background:#007bff">💊 抗凝血劑群</button>
-        <button class="btn" onclick="showGroup('sglt2')" style="background:#ff6fa5; color:#fff;">💊 糖尿病或心臟科用藥</button>
+        <button class="btn" style="background:#888" onclick="trackEvent('藥品', '瀏覽全部藥品', '不確定藥名');showAllDrugs();">🗂️ 我不確定藥名，瀏覽全部藥品</button>
+        <button class="btn" onclick="trackEvent('藥品群組', '點擊', '抗凝血劑群');showGroup('anticoagulants')">💊 抗凝血劑群</button>
+        <button class="btn" onclick="trackEvent('藥品群組', '點擊', '糖尿病或心臟科用藥');showGroup('sglt2')" style="background:#ff6fa5; color:#fff;">💊 糖尿病或心臟科用藥</button>
     </div>
     <div class="footer">
         本工具由臺大醫院新竹分院麻醉部製作，用於病患衛教用途。<br>
@@ -198,9 +215,9 @@ function showGroup(group) {
     const box = document.getElementById('chatbox');
     box.innerHTML = `
         <input type="text" id="searchInput" placeholder="🔍 搜尋藥品名稱（如：波立維、plavix）" oninput="searchDrugs()">
-        <button class="btn" style="background:#888" onclick="showAllDrugs()">🗂️ 我不確定藥名，瀏覽全部藥品</button>
-        <button class="btn" onclick="showGroup('anticoagulants')" style="background:#007bff">💊 抗凝血劑群</button>
-        <button class="btn" onclick="showGroup('sglt2')" style="background:#ff6fa5; color:#fff;">💊 糖尿病或心臟科用藥</button>
+        <button class="btn" style="background:#888" onclick="trackEvent('藥品', '瀏覽全部藥品', '不確定藥名');showAllDrugs();">🗂️ 我不確定藥名，瀏覽全部藥品</button>
+        <button class="btn" onclick="trackEvent('藥品群組', '點擊', '抗凝血劑群');showGroup('anticoagulants')">💊 抗凝血劑群</button>
+        <button class="btn" onclick="trackEvent('藥品群組', '點擊', '糖尿病或心臟科用藥');showGroup('sglt2')" style="background:#ff6fa5; color:#fff;">💊 糖尿病或心臟科用藥</button>
         <div class='msg bot'>請選擇藥品：</div>
     `;
     const sortedDrugs = drugs[group].slice().sort((a, b) => a.name.localeCompare(b.name));
@@ -208,8 +225,8 @@ function showGroup(group) {
         const groupColor = group === 'sglt2' ? '#ff6fa5' : '#007bff';
         box.innerHTML += `
             <div class='drug-item'>
-                 <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="zoomImage('${drug.img}')">
-                 <button class='btn' style="background:${groupColor}; color:#fff;" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
+                 <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="trackEvent('藥品', '點擊圖片', '${drug.display}');zoomImage('${drug.img}')">
+                 <button class='btn' style="background:${groupColor}; color:#fff;" onclick="trackEvent('藥品', '點擊藥名', '${drug.display}');showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
             </div>
         `;
     });
@@ -243,8 +260,8 @@ function searchDrugs() {
             const groupColor = group === 'sglt2' ? '#ff6fa5' : '#007bff';
             resultBox.innerHTML += `
                  <div class='drug-item'>
-                     <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="zoomImage('${drug.img}')">
-                     <button class='btn' style="background:${groupColor}; color:#fff;" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
+                     <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="trackEvent('藥品', '點擊圖片', '${drug.display}');zoomImage('${drug.img}')">
+                     <button class='btn' style="background:${groupColor}; color:#fff;" onclick="trackEvent('藥品', '點擊藥名', '${drug.display}');showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
                  </div>
             `;
         });
@@ -253,6 +270,7 @@ function searchDrugs() {
     if (resultBox.innerHTML === `<div class='msg bot'>以下為搜尋結果：</div>`) {
         resultBox.innerHTML += `<div class='msg bot'>沒有找到相關藥品。</div>`;
     }
+    trackEvent('搜尋', '藥品名稱', keyword);
 }
 
 function showAdvice(drug, img) {
@@ -317,8 +335,8 @@ function showAdvice(drug, img) {
         message = `您查詢的是 <b>${drug}</b>。🔔 建議術前停藥 <b>36 小時</b>。`;
     }
     box.innerHTML += `<div class='msg bot'>${message} <br>
-<img src="${img}" style="max-width: 200px; max-height: 200px;" onclick="zoomImage('${img}')"></div>`;
-    box.innerHTML += `<button class='btn' style="background:#28a745; color:#fff;" onclick='restart()'>🔁 重新查詢</button>`;
+<img src="${img}" style="max-width: 200px; max-height: 200px;" onclick="trackEvent('藥品', '點擊圖片', '${drug}');zoomImage('${img}')"></div>`;
+    box.innerHTML += `<button class='btn' style="background:#28a745; color:#fff;" onclick="trackEvent('重新查詢', '點擊', '重新查詢');restart()">🔁 重新查詢</button>`;
     window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -335,8 +353,8 @@ function showAllDrugs() {
         sortedDrugs.forEach(drug => {
             box.innerHTML += `
                  <div class='drug-item'>
-                     <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="zoomImage('${drug.img}')">
-                     <button class='btn' style="background:${groupColor}; color:#fff;" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
+                     <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="trackEvent('藥品', '點擊圖片', '${drug.display}');zoomImage('${drug.img}')">
+                     <button class='btn' style="background:${groupColor}; color:#fff;" onclick="trackEvent('藥品', '點擊藥名', '${drug.display}');showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
                  </div>
             `;
         });
@@ -350,6 +368,20 @@ function zoomImage(img) {
     modalImg.src = img;
     modalImg.alt = "藥品圖片";
 }
+
+function trackEvent(category, action, label) {
+    const eventDate = new Date().toLocaleString(); // 取得目前日期時間
+    if (typeof ga === 'function') {
+        ga('send', 'event', category, action, label, { eventDate: eventDate }); // 將日期時間作為參數傳遞
+    }
+    if (typeof gtag === 'function') {
+        gtag('event', action, {
+            'event_category': category,
+            'event_label': label,
+            'event_date': eventDate  // 將日期時間作為參數傳遞
+        });
+    }
+    console.log('Event tracked:', category, action, label, eventDate); // Added for debugging
+}
 </script>
-</body>
-</html>
+</body></html>
