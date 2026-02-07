@@ -147,6 +147,22 @@
         gtag('config', 'G-XNF046ZBYV'); // 請將 'YOUR_TRACKING_ID' 替換成您的追蹤ID
     </script>
 </head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-599PLQYSWE');
+
+  function trackDrugClick(drugName) {
+    gtag('event', 'view_drug_advice', { 'drug_name': drugName });
+  }
+  function trackSearch(keyword) {
+    if (keyword.length > 1) {
+      gtag('event', 'search_drug', { 'search_term': keyword });
+    }
+  }
+</script>
 <body>
     <h1 style="text-align: center;">術前停藥提醒小幫手</h1>
     <div id="chatbox">
