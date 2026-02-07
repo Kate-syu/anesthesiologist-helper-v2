@@ -6,187 +6,49 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-599PLQYSWE');
 
-      // 自定義追蹤：紀錄藥品點擊
       function trackDrugClick(drugName) {
-        gtag('event', 'view_drug_advice', {
-          'drug_name': drugName
-        });
+        gtag('event', 'view_drug_advice', { 'drug_name': drugName });
       }
-
-      // 自定義追蹤：紀錄搜尋關鍵字
       function trackSearch(keyword) {
         if (keyword.length >= 2) {
-          gtag('event', 'search_drug', {
-            'search_term': keyword
-          });
+          gtag('event', 'search_drug', { 'search_term': keyword });
         }
       }
     </script>
-    
+
     <meta charset="UTF-8">
     <title>術前停藥提醒小幫手</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: "Segoe UI", sans-serif;
-            background: linear-gradient(to bottom right, #f0f4f8, #ffffff);
-            padding: 15px;
-        }
-        #chatbox {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 15px;
-            max-width: 90%;
-            margin: auto;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-        .msg {
-            margin: 10px 0;
-            line-height: 1.6;
-        }
-        .bot {
-            color: #34495e;
-        }
-        .user {
-            text-align: right;
-            color: #007bff;
-            font-weight: 500;
-        }
-        .btn {
-            padding: 10px 15px;
-            margin: 5px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-        .btn:hover {
-            background: #0056b3;
-            transform: scale(1.05);
-        }
-        .footer {
-            margin-top: 20px;
-            font-size: 0.85em;
-            color: #555;
-            text-align: center;
-            line-height: 1.6;
-        }
-        .drug-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 10px 0;
-            text-align: center;
-        }
-        .drug-item img {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background: #f9f9f9;
-            cursor: zoom-in;
-            transition: transform 0.3s ease-in-out;
-        }
-        .drug-item img:hover {
-            transform: scale(3);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.9);
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 95%;
-            max-width: 90%;
-            max-height: 80%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .modal-content#zoomed-image {
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-        @keyframes zoom {
-            from {transform: translate(-50%, -50%) scale(0.1)}
-            to {transform: translate(-50%, -50%) scale(1)}
-        }
-        .close-button {
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            color: #f1f1f1;
-            font-size: 30px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        input[type="text"] {
-            width: 95%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border: 1px solid #ccc;
-            font-size: 0.9rem;
-            background: #fefefe;
-        }
-        #searchButton {
-            padding: 10px 15px;
-            margin: 5px;
-            color: #000;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            display: inline-block;
-        }
-        #searchButton:hover {
-            transform: scale(1.05);
-        }
+        body { font-family: "Segoe UI", sans-serif; background: linear-gradient(to bottom right, #f0f4f8, #ffffff); padding: 15px; }
+        #chatbox { background: #ffffff; padding: 20px; border-radius: 15px; max-width: 90%; margin: auto; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); }
+        .msg { margin: 10px 0; line-height: 1.6; }
+        .bot { color: #34495e; }
+        .user { text-align: right; color: #007bff; font-weight: 500; }
+        .btn { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 30px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s; display: inline-block; }
+        .btn:hover { background: #0056b3; transform: scale(1.05); }
+        .footer { margin-top: 20px; font-size: 0.85em; color: #555; text-align: center; line-height: 1.6; }
+        .drug-item { display: flex; flex-direction: column; align-items: center; margin: 10px 0; text-align: center; }
+        .drug-item img { width: 150px; height: 150px; object-fit: contain; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; background: #f9f9f9; cursor: zoom-in; transition: transform 0.3s; }
+        .drug-item img:hover { transform: scale(3); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.9); }
+        .modal-content { margin: auto; display: block; width: 95%; max-width: 90%; max-height: 80%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        input[type="text"] { width: 95%; padding: 10px; margin: 10px 0; border-radius: 10px; border: 1px solid #ccc; font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <h1 style="text-align:center;">術前停藥提醒小幫手<br><span style="color:red; font-weight:bold; font-size: 0.5em;">此類藥物的停用，請務必與您的手術醫師討論後再執行。</span></h1>
     <div id="chatbox">
-        <input type="text" id="searchInput" placeholder="🔍 搜尋藥品名稱（如：波立維、plavix）" oninput="searchDrugs()">
-        <button id="searchButton" onclick="searchDrugs()">搜尋</button> 
-        <button class="btn" style="background:#888" onclick="showAllDrugs()">🗂️ 我不確定藥名，瀏覽全部藥品</button>
+        <input type="text" id="searchInput" placeholder="🔍 搜尋藥品名稱（如：猛健樂、胰島能）" oninput="searchDrugs()">
+        <button class="btn" style="background:#888" onclick="showAllDrugs()">🗂️ 瀏覽全部</button>
         <button class="btn" onclick="showGroup('anticoagulants')" style="background:#007bff">💊 抗凝血劑群</button>
-        <button class="btn" onclick="showGroup('sglt2')" style="background:#ff6fa5; color:#fff;">💊 糖尿病或心臟科用藥</button>
+        <button class="btn" onclick="showGroup('sglt2')" style="background:#ff6fa5;">💊 糖尿病/心臟用藥</button>
+        <button class="btn" onclick="showGroup('glp1')" style="background:#ff9a6f;">💊 GLP-1 類用藥</button>
     </div>
-    <div class="footer">
-        本工具由臺大醫院新竹分院麻醉部製作，用於病患衛教用途。
-    </div>
-    <div id="imageModal" class="modal" onclick="this.style.display='none'">
-        <span class="close-button">&times;</span>
-        <img class="modal-content" id="zoomed-image">
-    </div>
+    <div class="footer">本工具由臺大醫院新竹分院麻醉部製作，用於病患衛教用途。</div>
+    <div id="imageModal" class="modal" onclick="this.style.display='none'"><img class="modal-content" id="zoomed-image"></div>
 
 <script>
 const drugs = {
@@ -219,155 +81,86 @@ const drugs = {
     ],
     sglt2: [
         { name: "invokana", display: "Canagliflozin（Invokana®，可拿糖）", img: "https://imgur.com/rnyqtHh.png" },
-        { name: "invokamet", display: "Canagliflozin/Metformin（Invokamet®，可拿糖複方）", img: "https://imgur.com/D1UCEPf.png" },
-        { name: "invokamet xr", display: "Canagliflozin/Metformin XR（Invokamet® XR，可拿糖緩釋複方）", img: "https://imgur.com/M7THdw3.png" },
         { name: "farxiga", display: "Dapagliflozin（Forxiga®，福適佳）", img: "https://imgur.com/cfdwxTi.png" },
-        { name: "xigduo", display: "Dapagliflozin/Metformin XR（Xigduo®，喜妥糖）", img: "https://imgur.com/NJ6zMSD.png" },
-        { name: "qtern", display: "Dapagliflozin/Saxagliptin（Qtern®，控糖穩）", img: "https://imgur.com/40wnbhg.png" },
-        { name: "qternmet xr", display: "Dapagliflozin/Saxagliptin/Metformin XR（Qternmet® XR，捷利妥複方）", img: "https://imgur.com/Gv4QP6T.png" },
         { name: "jardiance", display: "Empagliflozin（Jardiance®，恩排糖）", img: "https://imgur.com/8x87vYV.png" },
-        { name: "synjardy", display: "Empagliflozin/Metformin（Synjardy®，沛妥糖複方）", img: "https://imgur.com/RHvBTgK.png" },
-        { name: "synjardy xr", display: "Empagliflozin/Metformin XR（Synjardy® XR，沛妥糖緩釋複方）", img: "https://imgur.com/KvArm7u.png" },
-        { name: "glyxambi", display: "Empagliflozin/Linagliptin（Glyxambi®，糖順平）", img: "https://imgur.com/Cg1fbEz.png" },
-        { name: "trijardy xr", display: "Empagliflozin/Linagliptin/Metformin XR（Trijardy® XR，佳妥糖三合一）", img: "https://imgur.com/xT0qn1J.png" },
         { name: "steglatro", display: "Ertugliflozin（Steglatro™，釋糖健）", img: "https://imgur.com/YeTlrAL.png" },
-        { name: "segluromet", display: "Ertugliflozin/Metformin（Segluromet™，妥糖佳複方）", img: "https://imgur.com/s8mlurp.png" },
+        { name: "xigduo", display: "Dapagliflozin/Metformin XR（Xigduo®，喜妥糖）", img: "https://imgur.com/NJ6zMSD.png" },
+        { name: "synjardy", display: "Empagliflozin/Metformin（Synjardy®，沛妥糖複方）", img: "https://imgur.com/RHvBTgK.png" },
         { name: "steglujan", display: "Ertugliflozin/Sitagliptin（Steglujan™，恆妥糖佳）", img: "https://imgur.com/PW07xqQ.png" }
     ],
     glp1: [
         { name: "dulaglutide", display: "Dulaglutide（Trulicity®，易補糖）", img: "images/dulaglutide.png" },
-        { name: "liraglutide", display: "Liraglutide（Saxenda®，善纖達）", img: "images/liraglutide.png" },
+        { name: "liraglutide", display: "Liraglutide（Saxenda®，善纖達 / Victoza®，維多莎）", img: "images/liraglutide.png" },
         { name: "lixisenatide", display: "Lixisenatide（Lyxumia®，利舒嬔）", img: "images/lixisenatide.png" },
         { name: "semaglutide", display: "Semaglutide（Ozempic®，胰島能 / Rybelsus®，瑞倍適）", img: "images/semaglutide.png" },
         { name: "tirzepatide", display: "Tirzepatide（Mounjaro®，猛健樂）", img: "images/tirzepatide.png" }
-    ] 
+    ]
 };
 
 function showGroup(group) {
     const box = document.getElementById('chatbox');
+    const groupNames = { anticoagulants: '抗凝血劑', sglt2: '糖尿病/心臟用藥', glp1: 'GLP-1 類用藥' };
     box.innerHTML = `
-        <input type="text" id="searchInput" placeholder="🔍 搜尋藥品名稱（如：波立維、plavix）" oninput="searchDrugs()">
-        <button id="searchButton" onclick="searchDrugs()">搜尋</button>
-        <button class="btn" style="background:#888" onclick="showAllDrugs()">🗂️ 我不確定藥名，瀏覽全部藥品</button>
+        <input type="text" id="searchInput" placeholder="🔍 搜尋藥品名稱" oninput="searchDrugs()">
+        <button class="btn" style="background:#888" onclick="showAllDrugs()">🗂️ 瀏覽全部</button>
         <button class="btn" onclick="showGroup('anticoagulants')" style="background:#007bff">💊 抗凝血劑群</button>
-        <button class="btn" onclick="showGroup('sglt2')" style="background:#ff6fa5; color:#fff;">💊 糖尿病或心臟科用藥</button>
-        <div class='msg bot'>請選擇藥品：</div>
+        <button class="btn" onclick="showGroup('sglt2')" style="background:#ff6fa5;">💊 糖尿病/心臟用藥</button>
+        <button class="btn" onclick="showGroup('glp1')" style="background:#ff9a6f;">💊 GLP-1 類用藥</button>
+        <div class='msg bot'>您正在瀏覽 [${groupNames[group]}]，請選擇藥品：</div>
     `;
-    const sortedDrugs = drugs[group].slice().sort((a, b) => a.name.localeCompare(b.name));
-    sortedDrugs.forEach(drug => {
-        const groupColor = group === 'sglt2' ? '#ff6fa5' : '#007bff';
-        box.innerHTML += `
-            <div class='drug-item'>
-                <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="showAdvice('${drug.display}', '${drug.img}')" style="margin: 0 auto;">
-                <button class='btn' style="background:${groupColor}; color:#fff;" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
-            </div>
-        `;
+    drugs[group].forEach(drug => {
+        const color = group==='sglt2'?'#ff6fa5':(group==='glp1'?'#ff9a6f':'#007bff');
+        box.innerHTML += `<div class='drug-item'><img src="${drug.img}" onclick="showAdvice('${drug.display}', '${drug.img}')"><button class='btn' style="background:${color}" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button></div>`;
     });
 }
 
 function searchDrugs() {
     const keyword = document.getElementById('searchInput').value.toLowerCase();
-    
-    // --- GA4 搜尋追蹤 ---
     trackSearch(keyword);
-
-    const existingResults = document.getElementById('searchResults');
-    if (!existingResults) {
-        const resultBox = document.createElement('div');
-        resultBox.id = 'searchResults';
-        document.getElementById('chatbox').appendChild(resultBox);
-    }
-    const resultBox = document.getElementById('searchResults');
-    resultBox.innerHTML = '';
-    if (!keyword) return;
-
+    let resultBox = document.getElementById('searchResults') || document.createElement('div');
+    resultBox.id = 'searchResults'; document.getElementById('chatbox').appendChild(resultBox);
+    resultBox.innerHTML = ''; if (!keyword) return;
     let found = false;
     Object.keys(drugs).forEach(group => {
-        const matched = drugs[group].filter(drug => (
-            drug.display.toLowerCase().includes(keyword) ||
-            drug.name.toLowerCase().includes(keyword)
-        ));
-        matched.sort((a, b) => a.name.localeCompare(b.name));
-        matched.forEach(drug => {
-            found = true;
-            const groupColor = group === 'sglt2' ? '#ff6fa5' : '#007bff';
-            resultBox.innerHTML += `
-                <div class='drug-item'>
-                    <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="showAdvice('${drug.display}', '${drug.img}')" style="margin: 0 auto;">
-                    <button class='btn' style="background:${groupColor}; color:#fff;" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
-                </div>
-            `;
+        drugs[group].filter(d => d.display.toLowerCase().includes(keyword) || d.name.toLowerCase().includes(keyword)).forEach(drug => {
+            found = true; const color = group==='sglt2'?'#ff6fa5':(group==='glp1'?'#ff9a6f':'#007bff');
+            resultBox.innerHTML += `<div class='drug-item'><img src="${drug.img}" onclick="showAdvice('${drug.display}', '${drug.img}')"><button class='btn' style="background:${color}" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button></div>`;
         });
     });
-    if (!found) {
-        resultBox.innerHTML += `<div class='msg bot'>沒有找到相關藥品。</div>`;
-    }
+    if (!found) resultBox.innerHTML = "<div class='msg bot'>沒有找到相關藥品。</div>";
 }
 
 function showAdvice(drug, img) {
-    // --- GA4 點擊追蹤 ---
     trackDrugClick(drug);
-
     const box = document.getElementById('chatbox');
     box.innerHTML = `<div class='msg user'>${drug}</div>`;
-    let message = `您查詢的是 <b>${drug}</b>。請務必與您的手術醫師或於麻醉諮詢時確認具體停藥方式。`;
-    
-    const fourDayDrugs = ["Steglatro", "Segluromet", "Steglujan", "Forxiga", "Canaglu", "Jardiance", "Glyxambi", "Qtern", "Xigduo"];
-    
-    if (fourDayDrugs.some(d => drug.includes(d))) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥至少 4 天（96 小時）</span>。`;
-    } else if (drug.includes("Invokana") || drug.includes("Invokamet") || drug.includes("Invokamet XR") || drug.includes("Xigduo XR") || drug.includes("Qternmet XR") || drug.includes("Synjardy") || drug.includes("Synjardy XR") || drug.includes("Trijardy XR")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥至少 3 天（72 小時）</span>。`;
-    } else if (drug.includes("Lidodin") || drug.includes("Ticlopidine")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥至少 10 天</span>。`;
-    } else if (drug.includes("Efient") || drug.includes("Prasugrel") || drug.includes("Plavix") || drug.includes("Clopidogrel") || drug.includes("Brilinta") || drug.includes("Ticagrelor")) {
+    let message = `您查詢的是 <b>${drug}</b>。請務必與您的醫師確認。`;
+
+    // 邏輯判定
+    if (drug.includes("Dulaglutide") || drug.includes("Semaglutide") || drug.includes("Tirzepatide") || drug.includes("Trulicity") || drug.includes("Ozempic") || drug.includes("胰島能") || drug.includes("猛健樂")) {
+        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停用一週（7天）</span>。`;
+    } else if (drug.includes("Liraglutide") || drug.includes("Lixisenatide") || drug.includes("Saxenda") || drug.includes("Victoza") || drug.includes("善纖達")) {
+        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">手術當天停藥</span>。`;
+    } else if (["Steglatro", "Forxiga", "Jardiance", "Invokana"].some(d => drug.includes(d))) {
+        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥至少 3～4 天</span>。`;
+    } else if (drug.includes("Plavix") || drug.includes("Efient") || drug.includes("Warfarin") || drug.includes("Aspirin") || drug.includes("Bokey")) {
         message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 5～7 天</span>。`;
-    } else if (drug.includes("Cofrarin") || drug.includes("Warfarin")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 5～7 天</span>。`;
-    } else if (drug.includes("Aspirin") || drug.includes("Bokey")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 5～7 天</span> 或依醫囑調整。`;
-    } else if (drug.includes("Pletaal") || drug.includes("Cilostazol") || drug.includes("Sandel") || drug.includes("Dipyridamole")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 3 天</span>。`;
-    } else if (drug.includes("Clexane") || drug.includes("Enoxaparin")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 24 小時</span>。`;
-    } else if (drug.includes("Heparin")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 12 小時</span>。`;
-    } else if (drug.includes("Gincare") || drug.includes("銀杏")) {
-        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 36 小時</span>。`;
+    } else if (drug.includes("Licodin") || drug.includes("Ticlopidine")) {
+        message = `您查詢的是 <b>${drug}</b>。🔔 建議<span style="color:red; font-weight:bold;">術前停藥 10 天</span>。`;
     }
-    
-    box.innerHTML += `<div class='msg bot'>${message} <br> <img src="${img}" style="max-width: 200px; max-height: 200px; margin: 0 auto;" onclick="zoomImage('${img}')"></div>`;
-    box.innerHTML += `<button class='btn' style="background:#28a745; color:#fff;" onclick='restart()' style="margin: 0 auto;">🔁 重新查詢</button>`;
-    window.scrollTo(0, document.body.scrollHeight);
-}
 
-function restart() {
-    location.reload();
-}
-
-function showAllDrugs() {
-    const box = document.getElementById('chatbox');
-    box.innerHTML = `<div class='msg bot'>請點選您服用的藥品：</div>`;
-    ['anticoagulants', 'sglt2'].forEach(group => {
-        const groupColor = group === 'sglt2' ? '#ff6fa5' : '#007bff';
-        const sortedDrugs = drugs[group].slice().sort((a, b) => a.name.localeCompare(b.name));
-        sortedDrugs.forEach(drug => {
-            box.innerHTML += `
-                <div class='drug-item'>
-                    <img src="${drug.img || 'https://via.placeholder.com/150'}" onclick="showAdvice('${drug.display}', '${drug.img}')" style="margin: 0 auto;">
-                    <button class='btn' style="background:${groupColor}; color:#fff;" onclick="showAdvice('${drug.display}', '${drug.img}')">${drug.display}</button>
-                </div>
-            `;
-        });
-    });
+    box.innerHTML += `<div class='msg bot'>${message} <br> <img src="${img}" style="max-width: 200px;" onclick="zoomImage('${img}')"></div>`;
+    box.innerHTML += `<button class='btn' style="background:#28a745" onclick='location.reload()'>🔁 重新查詢</button>`;
 }
 
 function zoomImage(img) {
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("zoomed-image");
-    modal.style.display = "block";
-    modalImg.src = img;
-    modalImg.alt = "藥品圖片";
+    modal.style.display = "block"; modalImg.src = img;
+}
+
+function showAllDrugs() {
+    Object.keys(drugs).forEach(g => showGroup(g));
 }
 </script>
 </body>
